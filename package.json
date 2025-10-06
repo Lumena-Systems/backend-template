@@ -6,7 +6,8 @@
     "setup": "tsx setup.ts",
     "dev": "tsx watch candidate/solution.ts",
     "test": "tsx tests/test-harness.ts",
-    "scenarios": "tsx tests/scenarios.ts"
+    "scenarios": "tsx tests/scenarios.ts",
+    "postinstall": "npm rebuild better-sqlite3"
   },
   "dependencies": {
     "better-sqlite3": "^11.8.0"
