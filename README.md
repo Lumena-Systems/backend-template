@@ -48,21 +48,6 @@ Implement `createCampaignJobs(campaignId, customerEmails)` - create jobs for 50,
 
 **Key challenge:** Individual inserts would take 60+ seconds. Make it performant.
 
-### Task C: Handle External API Failure (~10 min)
-
-Implement `sendEmailStep(job)` - send email with proper error handling.
-
-**Error types:**
-- `RateLimitError` - transient, should retry
-- `TimeoutError` - transient, should retry
-- `InvalidEmailError` - permanent, should not retry
-
-**Key challenge:** Different errors require different handling strategies.
-
-### Task D: Idempotent Processing (~12 min)
-
-Implement `processJob(job)` - process job through current step, then advance to next step. Must be safe to call multiple times.
-
 **Workflow steps:** `send_email` → `analyze` → `take_action` → `done`
 
 **Key challenge:** Workers crash and jobs get retried. Ensure work is not duplicated.
