@@ -272,3 +272,8 @@ export function resetApis(): void {
 export function setApiConfig(config: Partial<ApiConfig>): void {
   Object.assign(apiConfig, config);
 }
+
+
+export function killWorker(): void {
+  
+}

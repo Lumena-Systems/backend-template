@@ -100,38 +100,39 @@ export async function createCampaignJobs(
 }
 
 // ============================================================================
-// TASK C: Handle External API Failure
+// TASK C: Worker Crash Recovery
 // ============================================================================
 
-export async function sendEmailStep(job: Job): Promise<boolean> {
+export async function recoverStalledJobs(
+  timeoutSeconds: number = 300
+): Promise<number> {
   /**
-   * Send email for this job.
+   * Find and recover jobs that are stuck in 'processing' state.
    * 
-   * Should:
+   * A job is considered stalled if:
+   * - status = 'processing' 
+   * - last_heartbeat (or started_at if no heartbeat) is older than timeoutSeconds
    * 
-   * sendEmail() may throw:
-   * - RateLimitError (transient, should retry)
-   * - InvalidEmailError (permanent, should not retry)
-   * - TimeoutError (transient, should retry)
+   * Recovery means:
+   * - Reset status back to 'pending'
+   * - Clear workerId
+   * - Clear startedAt
+   * - Clear lastHeartbeat
+   * 
+   * Must handle race conditions:
+   * - Worker might complete the job while cleanup runs
+   * - Multiple cleanup processes might run simultaneously
+   * - Only recover jobs that are actually stalled (atomic check + update)
+   * 
+   * @param timeoutSeconds - How old a job must be to be considered stalled
+   * @returns Number of jobs recovered
+   * 
+   * Consider: 
+   * - What if the job completes between your SELECT and UPDATE?
+   * - How do you ensure only stalled jobs are reset, not actively processing ones?
+   * - Should this handle jobs in other states (failed, completed)?
    */
 
-  // TODO: Implement this function
-  throw new Error('Not implemented');
-}
-
-// ============================================================================
-// TASK D: Idempotent Processing
-// ============================================================================
-
-
-export async function processJob(job: Job): Promise<void> {
-  /**
-   * Process the current step of a job.
-   * 
-   * Idempotent: Can be called multiple times safely.
-   * Will only advance once per step even if called repeatedly.
-   */
-  
   // TODO: Implement this function
   throw new Error('Not implemented');
 }
