@@ -72,8 +72,14 @@ export async function claimNextJob(): Promise<Job | null> {
    * @returns The claimed job, or null if no jobs available
    */
 
-  // TODO: Implement this function
-  throw new Error('Not implemented');
+  const MAX_RETRIES = 1000;
+  let retries = 0;
+  while (retries < MAX_RETRIES) {
+    // TODO: Implement this function
+    throw new Error('Not implemented');
+    retries++;
+  }
+  return null;
 }
 
 // ============================================================================
@@ -86,13 +92,13 @@ export async function createCampaignJobs(
 ): Promise<number> {
 
   /**
-   * Create jobs for a campaign with 50,000 customer emails.
+   * Create jobs for a campaign with 5,000,000 customer emails.
    * 
    * Each job should start at step 'send_email' with status 'pending'.
    * 
    * @returns number of jobs created
    * 
-   * Consider: This will be called with 50K emails. How do you do this efficiently?
+   * Consider: This will be called with 5M emails. How do you do this efficiently?
    */
 
   // TODO: Implement this function
