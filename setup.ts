@@ -27,7 +27,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     user_id INTEGER NOT NULL,
-    status TEXT NOT NULL DEFAULT 'active',
+    status INTEGER NOT NULL DEFAULT 1,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 
@@ -35,8 +35,8 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     campaign_id INTEGER NOT NULL,
     customer_email TEXT NOT NULL,
-    current_step TEXT NOT NULL,
-    status TEXT NOT NULL DEFAULT 'pending',
+    current_step INTEGER NOT NULL,
+    status INTEGER NOT NULL DEFAULT 0,
     worker_id TEXT,
     retry_count INTEGER DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -51,8 +51,8 @@ db.exec(`
   CREATE TABLE job_steps (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     job_id INTEGER NOT NULL,
-    step_name TEXT NOT NULL,
-    status TEXT NOT NULL,
+    step_name INTEGER NOT NULL,
+    status INTEGER NOT NULL,
     output_data TEXT,
     started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     completed_at DATETIME,
@@ -71,10 +71,14 @@ console.log('✅ Database schema created');
 // Insert sample data
 console.log('📝 Inserting sample data...');
 
+// CampaignStatus: Draft=0, Active=1, Paused=2, Completed=3, Archived=4
+// JobStepName: SendEmail=0, Analyze=1, TakeAction=2
+// JobStatus: Pending=0, Processing=1, Failed=2, Completed=3
+
 const campaign = db.prepare(`
   INSERT INTO campaigns (name, user_id, status)
   VALUES (?, ?, ?)
-`).run('Test Campaign', 1, 'active');
+`).run('Test Campaign', 1, 1); // Active = 1
 
 const campaignId = campaign.lastInsertRowid;
 
@@ -88,8 +92,8 @@ for (let i = 1; i <= 100; i++) {
   insertJob.run(
     campaignId,
     `customer${i}@example.com`,
-    'send_email',
-    'pending'
+    0, // SendEmail = 0
+    0  // Pending = 0
   );
 }
 
