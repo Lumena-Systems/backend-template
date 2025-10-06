@@ -1,0 +1,20 @@
+{
+  "name": "backend-interview-system",
+  "version": "1.0.0",
+  "description": "Backend system design interview",
+  "scripts": {
+    "setup": "tsx setup.ts",
+    "dev": "tsx watch candidate/solution.ts",
+    "test": "tsx tests/test-harness.ts",
+    "scenarios": "tsx tests/scenarios.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/node": "^20.10.6",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
